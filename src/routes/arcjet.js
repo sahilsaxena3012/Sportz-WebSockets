@@ -35,6 +35,13 @@ export const wsArcjet = arcjetKey
 
 export function securityMiddleware() {
   return async (req, res, next) => {
+    if (
+      req.ip === "::1" ||
+      req.ip === "127.0.0.1" ||
+      req.hostname === "localhost"
+    ) {
+      return next();
+    }
     if (!httpArcjet) return next();
 
     try {
